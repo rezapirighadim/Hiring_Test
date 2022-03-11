@@ -11,16 +11,21 @@ use Tests\TestCase;
 class BookControllerTest extends TestCase
 {
 
-    public function test_search_route_exists()
+
+    public function test_search_book_q_is_required()
     {
-        $res = $this->get('search/book');
-        $res->assertStatus(200);
+        $res = $this->get('api/search/book');
+        $res->assertSessionHasErrors('q');
     }
 
-    public function test_search_return_empty_array_without_q()
+    public function test_search_book_q_is_required_in_api()
     {
-        $res = $this->get('search/book');
-        $res->assertExactJson([]);
+        $res = $this->withHeaders([
+            'Accept' => 'application/json',
+            'Content-Type' => 'application/json',
+        ])->get('api/search/book');
+
+        $res->assertStatus(422);
     }
 
     public function test_cash_should_return_empty_once()
@@ -28,9 +33,19 @@ class BookControllerTest extends TestCase
         Cache::shouldReceive('remember')
             ->with('test', '60', Closure::class)
             ->andReturn([]);
+
     }
 
+    public function test_env_should_have_cache_ttl()
+    {
 
-    // assertJsonExact TODO ...
+        self::assertIsNumeric(env('CACHE_REMEMBER_MINUTE'));
+    }
+
+    public function test_env_should_have_scout_dirver()
+    {
+
+        self::assertEquals( 'database' , env('SCOUT_DRIVER'));
+    }
 
 }
