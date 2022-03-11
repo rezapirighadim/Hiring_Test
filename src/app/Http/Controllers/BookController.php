@@ -12,6 +12,13 @@ use Symfony\Component\HttpFoundation\Response;
 
 class BookController extends Controller
 {
+    /**
+     * manage search api based on book title , book publisher , book summery and author name
+     * @param SearchBookRequest $request
+     * @param Book $book
+     * @param Author $author
+     * @return mixed
+     */
     public function search(SearchBookRequest $request , Book $book , Author $author)
     {
         $q = $request["q"];
@@ -22,11 +29,14 @@ class BookController extends Controller
          });
     }
 
+    /**
+     * responsible to produce data for search api
+     * @param array $response
+     * @return \Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     */
     private function search_response(array $response)
     {
         if (!$response) return response([__('api.response.not_found')] , Response::HTTP_NOT_FOUND);
         return response($response , Response::HTTP_OK);
     }
-
-
 }
