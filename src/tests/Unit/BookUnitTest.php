@@ -2,7 +2,6 @@
 
 namespace Tests\Unit;
 
-use Illuminate\Support\Facades\File;
 use PHPUnit\Framework\TestCase;
 
 class BookUnitTest extends TestCase

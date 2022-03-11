@@ -2,8 +2,6 @@
 
 namespace Tests\Feature;
 
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Facades\Cache;
 use Mockery\Matcher\Closure;
 use Tests\TestCase;
@@ -42,7 +40,7 @@ class BookControllerTest extends TestCase
         self::assertIsNumeric(env('CACHE_REMEMBER_MINUTE'));
     }
 
-    public function test_env_should_have_scout_dirver()
+    public function test_env_should_have_scout_driver()
     {
 
         self::assertEquals( 'database' , env('SCOUT_DRIVER'));
