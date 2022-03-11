@@ -16,7 +16,6 @@ class Book extends Model
 
     /**
      * Get the indexable data array for the model.
-     *
      * @return array
      */
 
@@ -30,5 +29,16 @@ class Book extends Model
             'publisher' => $this->publisher,
             'summary' => $this->summary,
         ];
+    }
+
+    /**
+     * this part developed by using scout that available for mysql in laravel 9 and configured for search in full text mod.
+     * @param $q - query
+     * @return \Laravel\Scout\Builder
+     */
+    public function search_book($q){
+        return $this->search($q)
+            ->query(fn ($query) => $query->with('authors'))
+                 ->get()->toArray();
     }
 }
