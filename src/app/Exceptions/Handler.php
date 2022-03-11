@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
+use Symfony\Component\HttpFoundation\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -71,7 +72,7 @@ class Handler extends ExceptionHandler
     public function NotFoundExceptionMessage($request, Exception $exception)
     {
         return $request->expectsJson()
-            ? response()->json(['Not Found'] , 404)
+            ? response()->json(['Not Found'] , Response::HTTP_NOT_FOUND)
             : parent::render($request, $exception);
     }
 
@@ -85,7 +86,7 @@ class Handler extends ExceptionHandler
     protected function unauthenticated($request, AuthenticationException $exception)
     {
         return $request->expectsJson()
-            ? response()->json(['Forbidden Access'] , 401)
+            ? response()->json(['Forbidden Access'] , Response::HTTP_UNAUTHORIZED)
             : redirect()->guest(route('login'));
     }
 
